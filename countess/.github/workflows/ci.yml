@@ -12,6 +12,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Check for merge conflict markers
+        run: |
+          if rg -n "^(<<<<<<<|=======|>>>>>>>)" countess; then
+            echo "Merge conflict markers detected."
+            exit 1
+          fi
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
